@@ -1,8 +1,6 @@
 package com.garagonic.goodsin.repository;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +13,7 @@ public class Goods implements Serializable {
     }
     @Id
     @Column(length=20)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     public int getId() {

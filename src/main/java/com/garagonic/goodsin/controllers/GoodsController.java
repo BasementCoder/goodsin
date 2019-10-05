@@ -1,76 +1,47 @@
 package com.garagonic.goodsin.controllers;
 
-//import com.garagonic.goodsin.repository.GoodsRepository;
+import com.garagonic.goodsin.repository.Goods;
+import com.garagonic.goodsin.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-//@Controller
-//@RequestMapping("/goods")
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
+
+@Controller
 public class GoodsController {
-//
-//    @RequestMapping(value = "/goods", method = RequestMethod.GET)
-//    public ModelAndView showGoods(){
-//        return  new ModelAndView("goodsInPage","goods", new Goods());
-//    }
-//
-//    @RequestMapping(value = "/addGoods", method = RequestMethod.POST)
-//    public String add(@Valid @ModelAttribute("goods")Goods goods, BindingResult result, ModelMap model) {
-//        if (result.hasErrors()) {
-//            return "error";
-//        }
-//        model.addAttribute("id", goods.getId());
-//        model.addAttribute("title", goods.getTitle());
-//        model.addAttribute("po", goods.getPO());
-//        model.addAttribute("wo", goods.getWO());
-//        model.addAttribute("so", goods.getSO());
-//        model.addAttribute("customer", goods.getCustomer());
-//        model.addAttribute("rack", goods.getRack());
-//        model.addAttribute("shelf", goods.getShelf());
-//        model.addAttribute("shelf_position", goods.getShelfPosition());
-//        model.addAttribute("barcode", goods.getBarcode());
-//        model.addAttribute("in_date", goods.getInDate());
-//        model.addAttribute("out_date", goods.getOutDate());
-//        return "showAllGoods";
-//    }
+    @Autowired
+    private GoodsService goodsService;
+
+    @RequestMapping(value = "/goodsInPage", params = "addGoods")
+    public ModelAndView add(HttpServletRequest request, HttpServletResponse response) {
+        Goods goods = new Goods();
+        goods.setPO(Integer.parseInt(request.getParameter("po")));
+        goods.setWO(Integer.parseInt(request.getParameter("wo")));
+        goods.setSO(Integer.parseInt(request.getParameter("so")));
+        goodsService.addGoods(goods);
+
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("goodsInPage");
+        return mv;
+    }
+
+    @RequestMapping(value = "/goodsInPage", params = "search")
+    public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
+
+        List<Map> goodsList = goodsService.getGoods();
 
 
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("goodsList", goodsList);
+        mv.setViewName("goodsInPage");
+        return mv;
 
-//    @GetMapping("/goods")
-//    public List<Goods> index(){
-//        return goodsRepository.findAll();
-//    }
-//
-//    @GetMapping("/goods/{id}")
-//    public Goods show(@PathVariable String id){
-//        int blogId = Integer.parseInt(id);
-//        return goodsRepository.findOne(id);
-//    }
-//
-//    @PostMapping("/goods/search")
-//    public List<Goods> search(@RequestBody Map<String, String> body){
-//        String searchTerm = body.get("text");
-//        return goodsRespository.findByTitleContainingOrContentContaining(searchTerm, searchTerm);
-//    }
-//
-//    @PostMapping("/blog")
-//    public Goods create(@RequestBody Map<String, String> body){
-//        String title = body.get("title");
-//        String content = body.get("content");
-//        return goodsRepository.save(new Goods());
-//    }
-//
-//    @PutMapping("/goods/{id}")
-//    public Goods update(@PathVariable String id, @RequestBody Map<String, String> body){
-//        int blogId = Integer.parseInt(id);
-//        // getting blog
-//        Goods goods = goodsRepository.findOne();
-//        goods.setTitle(body.get("title"));
-//        goods.setContent(body.get("content"));
-//        return goodsRepository.save(goods);
-//    }
-//
-//    @DeleteMapping("goods/{id}")
-//    public boolean delete(@PathVariable String id){
-//        int blogId = Integer.parseInt(id);
-//        goodsRepository.delete(blogId);
-//        return true;
-//    }
+    }
+
 }
