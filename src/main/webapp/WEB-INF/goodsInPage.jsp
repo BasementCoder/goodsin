@@ -10,7 +10,7 @@
 <body>
 <center><strong>Goods In, Connecting people...</strong></center>
 
-<center> ${result} </center>
+<div style="text-align: center;"> ${result} </div>
 <br>
 
 Software is rented by  <strong>Half Done Industries</strong> <br>
@@ -46,48 +46,71 @@ Software is rented by  <strong>Half Done Industries</strong> <br>
             <td>Ile  -  Shelf  -  SPosition</td>
         <tr/>
         <tr>
-            <td><input type="text" name="ile" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input type="text" name="sposition" style="width:40px;"></td>
+            <td>
+                <input type="text" name="rack" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input type="text" name="shelfPosition" style="width:40px;">
+            </td>
         <tr/>
 
     </table>
     <input type="submit" name = "search" value = "Search">
     <input type="submit" name="addGoods" value = "Add Goods">
-    <input type="submit" value = "Edit Goods Details">
-    <input type="submit" value = "Remove Goods">
 </form>
 <br>
 </table>
 
 <c:if test="${!empty goodsList}">
-    <table>
+    <table width="800" border="2">
         <tr>
-            <th>Title</th>
-            <th>PO</th>
-            <th>WO</th>
-            <th>SO</th>
-            <th>Customer</th>
-            <th>Comment</th>
-            <th>Rack</th>
-            <th>Shelf</th>
-            <th>Shelf Position</th>
-            <th>Barcode Nr</th>
-            <th>In Date</th>
-            <th>Out Date</th>
+            <th width="98">ID</th>
+            <th width="98">Stock Status</th>
+            <th width="98">Title</th>
+            <th width="98">PO</th>
+            <th width="98">WO</th>
+            <th width="98">SO</th>
+            <th width="98">Customer</th>
+            <th width="98">Comment</th>
+            <th width="98">Rack</th>
+            <th width="98">Shelf</th>
+            <th width="98">Shelf Position</th>
+            <th width="98">Barcode Nr</th>
+            <th width="180">In Date</th>
+            <th width="180">Out Date</th>
+            <th width="180">Settings</th>
         </tr>
 
         <c:forEach items="${goodsList}" var="goods">
             <tr>
+                <td><c:out value="${goods.id}"/></td>
+                <td><c:out value="${goods.inStock}"/></td>
+                <td><c:out value="${goods.title}"/></td>
                 <td><c:out value="${goods.po}"/></td>
                 <td><c:out value="${goods.wo}"/></td>
                 <td><c:out value="${goods.so}"/></td>
+                <td><c:out value="${goods.customer}"/></td>
+                <td><c:out value="${null}"/></td> <%-- comment--%>
+                <td><c:out value="${goods.rack}"/></td>
+                <td><c:out value="${goods.shelf}"/></td>
+                <td><c:out value="${goods.shelfPosition}"/></td>
+                <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
+                <td><c:out value="${goods.inDate}"/></td>
+                <td><c:out value="${goods.outDate}"/></td> <%-- out date--%>
+<%--                <td><a href="${pageContext.request.contextPath}/edit?id=<c:out value='${goods.id}' />">Edit</a></td>--%>
+<%--                <td> <a href="${pageContext.request.contextPath}/delete?id=<c:out value='${goods.id}' />">Delete</a></td>--%>
+<%--                <td> <input type="submit" name="edit" value = "Edit"></td>--%>
+<%--                <td> <input type="submit" name="delete" value = "Delete"></td>--%>
+                <td>
+                    <c:choose>
+                        <c:when test="${goods.inStock}">
+                            <a href="<c:url value='/goodsInPage/delete/${goods.id}'/>">Delete</a>
+                        </c:when>
+                    </c:choose>
+
+                </td>
+
             </tr>
         </c:forEach>
     </table>
 </c:if>
-
-
-
-
 
 </body>
 </html>

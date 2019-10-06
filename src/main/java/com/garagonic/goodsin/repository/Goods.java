@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity(name = "goods")
 public class Goods implements Serializable {
 
+
     public Goods() {
         inDate = Calendar.getInstance().getTime();
     }
@@ -36,6 +37,15 @@ public class Goods implements Serializable {
     private String customer;
     private String title;
     private long barcode;
+    private boolean inStock;
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
+    }
 
     public long getBarcode() {
         return barcode;
