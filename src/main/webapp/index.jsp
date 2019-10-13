@@ -4,20 +4,10 @@
 <html>
 <body>
 
-    ${message}
+    Welcome to Goods In
     <br>
-	<form action="login">
-	    <table style="with: 50%">
-            <tr>
-                <td>Username:</td>
-                <td><input type="text" name="username"></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type="password" name="password"></td>
-            <tr/>
-		</table>
-		<input type="submit">
+	<form action="goToLoginPage">
+		<input type="submit" value="Log in">
 	</form>	
 	
 </body>

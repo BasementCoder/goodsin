@@ -2,8 +2,10 @@ package com.garagonic.goodsin.service;
 
 import com.garagonic.goodsin.repository.Goods;
 import com.garagonic.goodsin.repository.GoodsRepository;
-import org.hibernate.SessionFactory;
+import com.garagonic.goodsin.tools.Fn;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 
@@ -16,7 +18,6 @@ public class GoodsService {
     private GoodsRepository goodsRepository;
 
     public void addGoods(Goods goods) {
-
         if (goods != null) {
             goodsRepository.save(goods);
         } else {
@@ -24,31 +25,57 @@ public class GoodsService {
         }
     }
 
-    public List<Map> getGoods() {
-        List<Goods> all = goodsRepository.findAll();
-        List<Map> mapList = new ArrayList<>();
-        for (Goods goods : all) {
-            Map<String, Object> result = new HashMap<>();
-            result.put("id", goods.getId());
-            result.put("po", goods.getPO());
-            result.put("wo", goods.getWO());
-            result.put("so", goods.getSO());
-            result.put("customer", goods.getCustomer());
-            result.put("title", goods.getTitle());
-            result.put("rack", goods.getRack());
-            result.put("shelf", goods.getShelf());
-            result.put("shelfPosition", goods.getShelfPosition());
-            result.put("inDate", goods.getInDate());
-            result.put("outDate", goods.getOutDate());
-            result.put("inStock", goods.isInStock());
-            mapList.add(result);
-        }
+    public void updateGoods(Goods updateDataGoods) {
+        if (updateDataGoods != null) {
+            Goods goods = goodsRepository.getOne(updateDataGoods.getId());
+            goods.setPo( updateDataGoods.getPo());
+            goods.setWo(updateDataGoods.getWo());
+            goods.setSo(updateDataGoods.getSo());
+            goods.setCustomer(updateDataGoods.getCustomer());
+            goods.setTitle(updateDataGoods.getTitle());
+            goods.setRack(updateDataGoods.getRack());
+            goods.setShelf(updateDataGoods.getShelf());
+            goods.setShelfPosition(updateDataGoods.getShelfPosition());
 
-        return mapList;
+            goodsRepository.save(goods);
+        }
     }
 
-    public Goods editGoods(Goods goods) {
-       return null;
+    public List<Goods> getGoodsList(Goods goods) {
+        Goods searchData = new Goods();
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "rack", "shelf", "shelfPosition", "wo", "so", "comment", "inDate", "outDate", "customer", "title", "barcode", "inStock" );
+
+        if (goods != null) {
+            if (goods.getPo() != 0) {
+                searchData.setPo(goods.getPo());
+            } else {
+                exampleMatcher = exampleMatcher.withIgnorePaths("po");
+            }
+//        if (goods.getWo() != 0) {
+//            searchResults = findByWO(wo, searchResults);
+//        }
+//        if (goods.getSo() != 0) {
+//            searchResults = findBySO(so, searchResults);
+//        }
+//        if (Fn.isStringPopulated(goods.getCustomer())) {
+//            searchResults = findByCustomer(customer, searchResults);
+//        }
+//        if (Fn.isStringPopulated(goods.getTitle())) {
+//            searchResults = findByTitle(title, searchResults);
+//        }
+//        if (Fn.isStringPopulated(goods.getLocation())) {
+//            searchResults = findByLocation(location, searchResults);
+//        }
+
+//        if (onlyCurrentGoods) {
+//            searchResults = findCurrentGoods(searchResults);
+//        }
+        }
+        return goodsRepository.findAll(Example.of( searchData, exampleMatcher));
+    }
+
+    public Goods getGoods(int id) {
+       return goodsRepository.findById(id).orElse(null);
     }
 
     public void removeGoods(int id) {

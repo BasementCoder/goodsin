@@ -144,11 +144,11 @@ public class ConsoleUI {
         System.out.println("Enter Title");
         newGoods.setTitle(read());
         System.out.println("Enter PO (number)");
-        newGoods.setPO(readInt());
+        newGoods.setPo(readInt());
         System.out.println("Enter WO (number)");
-        newGoods.setWO(readInt());
+        newGoods.setWo(readInt());
         System.out.println("Enter SO (number)");
-        newGoods.setSO(readInt());
+        newGoods.setSo(readInt());
         System.out.println("Enter Ile (one character)");
         newGoods.setRack(read());
         System.out.println("Enter Shelf (one character)");
@@ -186,8 +186,8 @@ public class ConsoleUI {
 
     private void showGoods(Goods goods) {
         System.out.println(String.format("%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-20s %-40s %-40s", goods.getLocation(),
-                goods.getTitle(), goods.getPO(), goods.getWO(), goods.getSO(), goods.getCustomer(),
-                goods.getComment(), goods.getID(), goods.getInDate(), goods.getOutDate()));
+                goods.getTitle(), goods.getPo(), goods.getWo(), goods.getSo(), goods.getCustomer(),
+                goods.getComment(), goods.getId(), goods.getInDate(), goods.getOutDate()));
     }
 
     private void showAllGoods() {

@@ -74,7 +74,7 @@ public class StockRoom implements Serializable {
         List<Goods> searchResults = new ArrayList<>();
         for (Goods goods : searchedGoodsList) {
 
-            if (goods.getPO() == po) {
+            if (goods.getPo() == po) {
                 searchResults.add(goods);
             }
         }
@@ -85,7 +85,7 @@ public class StockRoom implements Serializable {
         List<Goods> searchResults = new ArrayList<>();
         for (Goods goods : searchedGoodsList) {
 
-            if (goods.getWO() == wo) {
+            if (goods.getWo() == wo) {
                 searchResults.add(goods);
             }
         }
@@ -96,7 +96,7 @@ public class StockRoom implements Serializable {
         List<Goods> searchResults = new ArrayList<>();
         for (Goods goods : searchedGoodsList) {
 
-            if (goods.getSO() == so) {
+            if (goods.getSo() == so) {
                 searchResults.add(goods);
             }
         }

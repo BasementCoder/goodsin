@@ -12,7 +12,7 @@
  <center> ${result} </center>
   <br>
 
-<form action = "mainMenu" >
+<form action = "mainMenu" method="post">
         <center> <br><input type="submit" value = "Goods In" action="goodsInOption"> </center>
          <center> <br><input type="submit" value = "Work Orders Status" ></center>
 

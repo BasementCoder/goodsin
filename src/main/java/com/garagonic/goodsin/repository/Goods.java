@@ -28,9 +28,9 @@ public class Goods implements Serializable {
     private String rack;
     private String shelf;
     private int shelfPosition;
-    private int PO;
-    private int WO;
-    private int SO;
+    private int po;
+    private int wo;
+    private int so;
     private String comment;
     private Date inDate;
     private Date outDate;
@@ -75,10 +75,6 @@ public class Goods implements Serializable {
         this.customer = customer;
     }
 
-    public int getID() {
-        return hashCode();
-    }
-
     public String getRack() {
         return rack;
     }
@@ -109,28 +105,28 @@ public class Goods implements Serializable {
         this.shelfPosition = shelfPosition;
     }
 
-    public int getPO() {
-        return PO;
+    public int getPo() {
+        return po;
     }
 
-    public void setPO(int PO) {
-        this.PO = PO;
+    public void setPo(int po) {
+        this.po = po;
     }
 
-    public int getWO() {
-        return WO;
+    public int getWo() {
+        return wo;
     }
 
-    public void setWO(int WO) {
-        this.WO = WO;
+    public void setWo(int wo) {
+        this.wo = wo;
     }
 
-    public int getSO() {
-        return SO;
+    public int getSo() {
+        return so;
     }
 
-    public void setSO(int SO) {
-        this.SO = SO;
+    public void setSo(int so) {
+        this.so = so;
     }
 
     public String getComment() {

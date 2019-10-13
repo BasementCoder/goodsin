@@ -6,7 +6,7 @@
 
 ${message}
 <br>
-<form action="login" >
+<form action="login" method="post" >
 
     <table style="with: 50%" >
         <tr>

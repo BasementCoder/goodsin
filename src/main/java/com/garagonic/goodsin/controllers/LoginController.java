@@ -37,4 +37,11 @@ public class LoginController {
         return mv;
     }
 
+    @RequestMapping("/goToLoginPage")
+    public ModelAndView login() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("login");
+        return mv;
+    }
+
 }

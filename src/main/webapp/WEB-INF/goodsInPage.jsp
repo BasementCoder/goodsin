@@ -12,11 +12,8 @@
 
 <div style="text-align: center;"> ${result} </div>
 <br>
-
-Software is rented by  <strong>Half Done Industries</strong> <br>
-
 <br>
-<form action="goodsInPage" >
+<form action="goodsInPage" method="post">
 
     <table style="with: 50%" >
         <tr>
@@ -101,7 +98,8 @@ Software is rented by  <strong>Half Done Industries</strong> <br>
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/goodsInPage/delete/${goods.id}'/>">Delete</a>
+                            <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>
+                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a>
                         </c:when>
                     </c:choose>
 
