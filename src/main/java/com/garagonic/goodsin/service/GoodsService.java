@@ -28,7 +28,7 @@ public class GoodsService {
     public void updateGoods(Goods updateDataGoods) {
         if (updateDataGoods != null) {
             Goods goods = goodsRepository.getOne(updateDataGoods.getId());
-            goods.setPo( updateDataGoods.getPo());
+            goods.setPo(updateDataGoods.getPo());
             goods.setWo(updateDataGoods.getWo());
             goods.setSo(updateDataGoods.getSo());
             goods.setCustomer(updateDataGoods.getCustomer());
@@ -42,40 +42,46 @@ public class GoodsService {
     }
 
     public List<Goods> getGoodsList(Goods goods) {
-        Goods searchData = new Goods();
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "rack", "shelf", "shelfPosition", "wo", "so", "comment", "inDate", "outDate", "customer", "title", "barcode", "inStock" );
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "comment", "inDate", "outDate", "barcode", "inStock" );
 
         if (goods != null) {
-            if (goods.getPo() != 0) {
-                searchData.setPo(goods.getPo());
-            } else {
+            if (goods.getPo() == 0) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("po");
             }
-//        if (goods.getWo() != 0) {
-//            searchResults = findByWO(wo, searchResults);
-//        }
-//        if (goods.getSo() != 0) {
-//            searchResults = findBySO(so, searchResults);
-//        }
-//        if (Fn.isStringPopulated(goods.getCustomer())) {
-//            searchResults = findByCustomer(customer, searchResults);
-//        }
-//        if (Fn.isStringPopulated(goods.getTitle())) {
-//            searchResults = findByTitle(title, searchResults);
-//        }
-//        if (Fn.isStringPopulated(goods.getLocation())) {
-//            searchResults = findByLocation(location, searchResults);
-//        }
+            if (goods.getWo() == 0) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("wo");
+            }
+            if (goods.getSo() == 0) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("so");
+            }
+            if (Fn.isStringEmpty(goods.getCustomer())) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("customer");
+            }
+            if (Fn.isStringEmpty(goods.getTitle())) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("title");
+            }
+            if (Fn.isStringEmpty(goods.getRack())) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("rack");
+            }
+            if (Fn.isStringEmpty(goods.getShelf())) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("shelf");
+            }
+            if (goods.getShelfPosition() == 0) {
+                exampleMatcher = exampleMatcher.withIgnorePaths("shelfPosition");
+            }
+
 
 //        if (onlyCurrentGoods) {
 //            searchResults = findCurrentGoods(searchResults);
 //        }
         }
-        return goodsRepository.findAll(Example.of( searchData, exampleMatcher));
+
+        return goodsRepository.findAll(Example.of(goods, exampleMatcher));
     }
 
     public Goods getGoods(int id) {
-       return goodsRepository.findById(id).orElse(null);
+        return goodsRepository.findById(id).orElse(null);
     }
 
     public void removeGoods(int id) {

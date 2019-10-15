@@ -14,7 +14,7 @@
 <div style="text-align: center;"> ${result} </div>
 <br>
 <br>
-<strong>Editing Mode:</strong>
+<center><strong>Editing Mode:</strong></center>
 <br>
 <form action="${goods.id}/editGoods" method="post" >
 

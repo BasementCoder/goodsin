@@ -4,9 +4,9 @@
 <html>
 <body>
 
-    Welcome to Goods In
+    <center>Welcome to Goods In</center>
     <br>
-	<form action="goToLoginPage">
+	<form action="goToLoginPage" align="center">
 		<input type="submit" value="Log in">
 	</form>	
 	

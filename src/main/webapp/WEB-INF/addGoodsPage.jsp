@@ -12,10 +12,11 @@
 
 <div style="text-align: center;"> ${result} </div>
 <br>
+<center><strong>Add Goods Mode+</strong></center>
 <br>
-<form action="goodsInPage" method="post" >
+<form action="addGoodsPage" method="post">
 
-    <table style="with: 50%" align="center">
+    <table style="with: 50%" >
         <tr>
             <td>PO:</td>
             <td><input type="text" name="po"></td>
@@ -49,8 +50,8 @@
         <tr/>
 
     </table>
-    <center><input type="submit" name = "search" value = "Search">
-            <input type="submit" name="addGoods" value = "Add Goods"></center>
+    <input type="submit" name="addGoods" value = "Add Goods">
+    <input type="submit" name = "cancel" value = "Cancel">
 </form>
 <br>
 </table>
@@ -91,15 +92,12 @@
                 <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
                 <td><c:out value="${goods.inDate}"/></td>
                 <td><c:out value="${goods.outDate}"/></td> <%-- out date--%>
-<%--                <td><a href="${pageContext.request.contextPath}/edit?id=<c:out value='${goods.id}' />">Edit</a></td>--%>
-<%--                <td> <a href="${pageContext.request.contextPath}/delete?id=<c:out value='${goods.id}' />">Delete</a></td>--%>
-<%--                <td> <input type="submit" name="edit" value = "Edit"></td>--%>
-<%--                <td> <input type="submit" name="delete" value = "Delete"></td>--%>
+                       <td> <input type="submit" name="delete" value = "Delete"></td>--%>
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
                             <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>
-                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a>
+                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a> <br>
                         </c:when>
                     </c:choose>
 
