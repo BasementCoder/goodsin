@@ -14,7 +14,7 @@
 <br>
 <center><strong>Add Goods Mode+</strong></center>
 <br>
-<form action="addGoodsPage" method="post">
+<form action="addGoodsPage" align="center" method="post">
 
     <table style="with: 50%" >
         <tr>
@@ -45,7 +45,9 @@
         <tr/>
         <tr>
             <td>
-                <input type="text" name="rack" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input type="text" name="shelfPosition" style="width:40px;">
+                <input type="text" style="width:40px;" name="rack" >
+                -<input type="text" style="width:40px;" name="shelf" >-
+                <input type="text" style="width:40px;" name="shelfPosition">
             </td>
         <tr/>
 
@@ -56,8 +58,8 @@
 <br>
 </table>
 
-<c:if test="${!empty goodsList}">
-    <table width="800" border="2">
+<c:if  test="${!empty goodsList}" >
+    <table width="800" border="2" >
         <tr>
             <th width="98">ID</th>
             <th width="98">Stock Status</th>

@@ -16,9 +16,9 @@
 <br>
 <center><strong>Editing Mode:</strong></center>
 <br>
-<form action="${goods.id}/editGoods" method="post" >
+<form action="/${goods.id}/edit/submit" align="center" method="post" >
 
-    <table style="with: 50%" >
+    <table style="with: 50%" align="center">
         <tr>
             <td>PO:</td>
             <td><input type="text" name="po" value=${goods.po}></td>
@@ -46,10 +46,10 @@
             <td>Ile  -  Shelf  -  SPosition</td>
         <tr/>
         <tr>
-            <td>
-                <input type="text" name="rack" value =${goods.rack} style="width:40px;">-
-                <input type="text" name="shelf" value=${goods.shelf} style="width:40px;">-
-                <input type="text" name="shelfPosition" value=${goods.shelfPosition} style="width:40px;">
+            <td >
+                <input type="text" style="width:40px;" name="rack" value ="${goods.rack}" >-
+                <input type="text" style="width:40px;" name="shelf" value="${goods.shelf}" >-
+                <input type="text" style="width:40px;" name="shelfPosition" value="${goods.shelfPosition}">
             </td>
         <tr/>
 

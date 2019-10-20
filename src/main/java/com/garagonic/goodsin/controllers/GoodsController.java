@@ -20,9 +20,9 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @RequestMapping(value = "/goodsInPage")
+    @RequestMapping(value = "/")
     public ModelAndView searchAdd(HttpServletRequest request, HttpServletResponse response) {
-        Goods goods = null;
+        Goods goods = new Goods();
         if (request.getParameter("search") != null) {
             goods = search(request, response);
         }
@@ -55,7 +55,10 @@ public class GoodsController {
         goods.setRack(request.getParameter("rack"));
         goods.setShelf(request.getParameter("shelf"));
         goods.setShelfPosition(convertParameterToInt(request,"shelfPosition"));
-        // default values
+
+        /**
+         *  default values
+         */
         goods.setInDate(new java.util.Date());
         goods.setInStock(true);
         return goods;
@@ -72,17 +75,17 @@ public class GoodsController {
         return goods;
     }
 
-    @RequestMapping(value = "/goodsInPage/deleteGoods/{id}")
-    public ModelAndView deleteGoods(@PathVariable("id") int id) {
+    @RequestMapping(value = "/{id}/delete")
+    public ModelAndView deleteGoods(HttpServletRequest request, @PathVariable("id") int id) {
         goodsService.removeGoods(id);
         List<Goods> goodsList = goodsService.getGoodsList(null);
         ModelAndView mv = new ModelAndView();
         mv.addObject("goodsList", goodsList);
-        mv.setViewName("redirect:/goodsInPage");
+        mv.setViewName("redirect:../");
         return mv;
     }
                                                                                     
-    @RequestMapping(value = "/goodsInPage/openEditGoodsPage/{id}")
+    @RequestMapping(value = "/{id}/edit")
     public ModelAndView openEditGoodsPage(@PathVariable("id") int id) {
         Goods goods = goodsService.getGoods(id);
         ModelAndView mv = new ModelAndView();
@@ -92,7 +95,7 @@ public class GoodsController {
         return mv;
     }
 
-    @RequestMapping(value = "/goodsInPage/openEditGoodsPage/{id}/editGoods")
+    @RequestMapping(value = "/{id}/edit/submit")
     public ModelAndView editGoods(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response){
         if (request.getParameter("submit") != null) {
             Goods editedGoods = getGoodsFromRequest(request, id);
@@ -102,7 +105,7 @@ public class GoodsController {
         List<Goods> goodsList = goodsService.getGoodsList(null);
         ModelAndView mv = new ModelAndView();
         mv.addObject("goodsList", goodsList);
-        mv.setViewName("goodsInPage");
+        mv.setViewName("redirect:../../");
         return mv;
     }
 }

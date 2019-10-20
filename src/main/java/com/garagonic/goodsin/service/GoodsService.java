@@ -71,10 +71,13 @@ public class GoodsService {
                 exampleMatcher = exampleMatcher.withIgnorePaths("shelfPosition");
             }
 
-
+//             TODO Add search by stock availability option
 //        if (onlyCurrentGoods) {
 //            searchResults = findCurrentGoods(searchResults);
 //        }
+        }
+        else {
+            goods = new Goods();
         }
 
         return goodsRepository.findAll(Example.of(goods, exampleMatcher));

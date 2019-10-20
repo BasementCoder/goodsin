@@ -13,7 +13,7 @@
 <div style="text-align: center;"> ${result} </div>
 <br>
 <br>
-<form action="goodsInPage" method="post" >
+<form action="/" method="post" >
 
     <table style="with: 50%" align="center">
         <tr>
@@ -56,7 +56,7 @@
 </table>
 
 <c:if test="${!empty goodsList}">
-    <table width="800" border="2">
+    <table width="800" border="2" align="center">
         <tr>
             <th width="98">ID</th>
             <th width="98">Stock Status</th>
@@ -91,15 +91,11 @@
                 <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
                 <td><c:out value="${goods.inDate}"/></td>
                 <td><c:out value="${goods.outDate}"/></td> <%-- out date--%>
-<%--                <td><a href="${pageContext.request.contextPath}/edit?id=<c:out value='${goods.id}' />">Edit</a></td>--%>
-<%--                <td> <a href="${pageContext.request.contextPath}/delete?id=<c:out value='${goods.id}' />">Delete</a></td>--%>
-<%--                <td> <input type="submit" name="edit" value = "Edit"></td>--%>
-<%--                <td> <input type="submit" name="delete" value = "Delete"></td>--%>
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>
-                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a>
+                            <a href="<c:url value='/${goods.id}/delete'/>">Delete</a>
+                            <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
                         </c:when>
                     </c:choose>
 

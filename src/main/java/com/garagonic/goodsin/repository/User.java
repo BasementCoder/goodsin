@@ -1,39 +1,60 @@
 package com.garagonic.goodsin.repository;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "giuser")
 public class User {
 
     @Id
     @Column(length=20)
-    private String username;
-    private String gipassword;
-    private Boolean superuser;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    private String userName;
+    private String password;
+    private Boolean active;
+    private String roles;
 
-    public String getUsername() {
-        return username;
+    public int getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getGipassword() {
-        return gipassword;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setGipassword(String gipassword) {
-        this.gipassword = gipassword;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public Boolean getSuperuser() {
-        return superuser;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSuperuser(Boolean superuser) {
-        this.superuser = superuser;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+
+
+
 }
