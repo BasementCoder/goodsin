@@ -98,9 +98,7 @@
                             <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
                         </c:when>
                     </c:choose>
-
                 </td>
-
             </tr>
         </c:forEach>
     </table>

@@ -14,7 +14,7 @@
 <br>
 <center><strong>Add Goods Mode+</strong></center>
 <br>
-<form action="addGoodsPage" align="center" method="post">
+<form action="addGoodsP" align="center" method="post">
 
     <table style="with: 50%" >
         <tr>
@@ -50,11 +50,10 @@
                 <input type="text" style="width:40px;" name="shelfPosition">
             </td>
         <tr/>
-
     </table>
     <input type="submit" name="addGoods" value = "Add Goods">
     <input type="submit" name = "cancel" value = "Cancel">
-</form>
+
 <br>
 </table>
 
@@ -98,17 +97,18 @@
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>
-                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a> <br>
+<%--                            <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>--%>
+<%--                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a> <br>--%>
+                            <a href="<c:url value='/${goods.id}/delete'/>">Delete</a>
+                            <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
                         </c:when>
                     </c:choose>
-
                 </td>
-
             </tr>
         </c:forEach>
     </table>
 </c:if>
+</form>
 
 </body>
 </html>

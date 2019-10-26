@@ -1,5 +1,6 @@
 package com.garagonic.goodsin.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -19,21 +22,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    MyUserDetailsService myUserDetailsService;
+    @Autowired
+    DataSource dataSource;
 
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
 
-        builder.inMemoryAuthentication().withUser("giuser").password("password") 
-                .roles("USER","ADMIN");
-
+        builder.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select user_name, password, active from giuser where user_name=?")
+        .authoritiesByUsernameQuery("select user_name, roles, active from giuser where user_name=?");
     }
 
     @Override
     protected void configure(HttpSecurity config) throws Exception {
+
         config.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
-                .anyRequest().access("hasRole('USER')").and()
+                .antMatchers("/**").access("hasRole('USER')").and()
                 .formLogin();
     }
 
@@ -41,5 +45,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPasswordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
-
 }

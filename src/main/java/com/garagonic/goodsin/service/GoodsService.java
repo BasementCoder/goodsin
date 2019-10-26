@@ -21,7 +21,7 @@ public class GoodsService {
         if (goods != null) {
             goodsRepository.save(goods);
         } else {
-            throw new RuntimeException("Goods cannot be null.");
+            throw new RuntimeException("Goods cannot be null. Please make sure that at least fields of "+"'Title'"+" and "+"'Location'"+" is filled");
         }
     }
 

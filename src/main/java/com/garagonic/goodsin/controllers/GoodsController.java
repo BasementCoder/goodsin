@@ -25,8 +25,7 @@ public class GoodsController {
         Goods goods = new Goods();
         if (request.getParameter("search") != null) {
             goods = search(request, response);
-        }
-        else if (request.getParameter("addGoods") != null) {
+        } else if (request.getParameter("addGoods") != null) {
             goods = add(request, response);
         }
         List<Goods> goodsList = goodsService.getGoodsList(goods);
@@ -39,22 +38,29 @@ public class GoodsController {
     private Goods add(HttpServletRequest request, HttpServletResponse response) {
         Goods goods = getGoodsFromRequest(request, 0);
 
+        if(goods.getTitle() == null || goods.getRack() == null || goods.getShelf() == null || goods.getShelfPosition() == 0){
+            System.out.println("Missing important goods details. ");
+            return null;
+        }else {
         goodsService.addGoods(goods);
-        return goods;
+            return goods;
+        }
+
+
+
     }
 
-    private Goods getGoodsFromRequest( HttpServletRequest request, int id )
-    {
+    private Goods getGoodsFromRequest(HttpServletRequest request, int id) {
         Goods goods = new Goods();
         goods.setId(id);
-        goods.setPo( convertParameterToInt( request,"po") );
-        goods.setWo(convertParameterToInt(request,"wo"));
-        goods.setSo(convertParameterToInt(request,"so"));
+        goods.setPo(convertParameterToInt(request, "po"));
+        goods.setWo(convertParameterToInt(request, "wo"));
+        goods.setSo(convertParameterToInt(request, "so"));
         goods.setCustomer(request.getParameter("customer"));
         goods.setTitle(request.getParameter("title"));
         goods.setRack(request.getParameter("rack"));
         goods.setShelf(request.getParameter("shelf"));
-        goods.setShelfPosition(convertParameterToInt(request,"shelfPosition"));
+        goods.setShelfPosition(convertParameterToInt(request, "shelfPosition"));
 
         /**
          *  default values
@@ -65,7 +71,7 @@ public class GoodsController {
     }
 
 
-    private int convertParameterToInt( HttpServletRequest request, String parameterName ) {
+    private int convertParameterToInt(HttpServletRequest request, String parameterName) {
         String parameter = request.getParameter(parameterName);
         return Fn.isStringEmpty(parameter) ? 0 : parseInt(parameter);
     }
@@ -84,7 +90,7 @@ public class GoodsController {
         mv.setViewName("redirect:../");
         return mv;
     }
-                                                                                    
+
     @RequestMapping(value = "/{id}/edit")
     public ModelAndView openEditGoodsPage(@PathVariable("id") int id) {
         Goods goods = goodsService.getGoods(id);
@@ -96,7 +102,7 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/{id}/edit/submit")
-    public ModelAndView editGoods(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView editGoods(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
         if (request.getParameter("submit") != null) {
             Goods editedGoods = getGoodsFromRequest(request, id);
             goodsService.updateGoods(editedGoods);
@@ -108,4 +114,17 @@ public class GoodsController {
         mv.setViewName("redirect:../../");
         return mv;
     }
+
+
+//
+//    @RequestMapping(value = "/goodsInPage/addGoodsPage")
+//    public ModelAndView openAddGoodsPage(HttpServletRequest request, HttpServletResponse response) {
+//        Goods goods = new Goods();
+//        ModelAndView mv = new ModelAndView();
+//        goods = add(request, response);
+//        mv.addObject("goods", goods);
+//        mv.setViewName("goodsInPage");
+//        goodsService.addGoods(goods);
+//        return mv;
+//    }
 }
