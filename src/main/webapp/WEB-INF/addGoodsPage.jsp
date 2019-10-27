@@ -10,13 +10,17 @@
 <body>
 <center><strong>Goods In, Connecting people...</strong></center>
 
+<div align="right">
+  <a href="<c:url value="/logout" />">Log Out</a>
+</div>
+
 <div style="text-align: center;"> ${result} </div>
 <br>
 <center><strong>Add Goods Mode+</strong></center>
 <br>
-<form action="addGoodsP" align="center" method="post">
+<form action="addGoodsPage" align="center" method="post">
 
-    <table style="with: 50%" >
+    <table style="with: 50%" align="center" >
         <tr>
             <td>PO:</td>
             <td><input type="text" name="po"></td>
@@ -51,7 +55,7 @@
             </td>
         <tr/>
     </table>
-    <input type="submit" name="addGoods" value = "Add Goods">
+    <input type="submit" name="addGoods" value = "Complete">
     <input type="submit" name = "cancel" value = "Cancel">
 
 <br>

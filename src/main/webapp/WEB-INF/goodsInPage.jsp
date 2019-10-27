@@ -6,9 +6,14 @@
 <head>
     <meta charset="ISO-8859-1">
     <title> Goods In </title>
+    <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
 </head>
 <body>
 <center><strong>Goods In, Connecting people...</strong></center>
+
+<div align="right">
+  <a href="<c:url value="/logout" />" class="button">Log Out</a>
+</div>
 
 <div style="text-align: center;"> ${result} </div>
 <br>

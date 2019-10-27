@@ -38,7 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         config.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
                 .antMatchers("/**").access("hasRole('USER')").and()
-                .formLogin();
+                .formLogin()
+                .and()
+                .logout();
     }
 
     @Bean

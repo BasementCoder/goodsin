@@ -22,16 +22,33 @@ public class GoodsController {
 
     @RequestMapping(value = "/")
     public ModelAndView searchAdd(HttpServletRequest request, HttpServletResponse response) {
-        Goods goods = new Goods();
+        Goods goods;
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("goodsInPage");
         if (request.getParameter("search") != null) {
             goods = search(request, response);
+            List<Goods> goodsList = goodsService.getGoodsList(goods);
+            mv.addObject("goodsList", goodsList);
+            mv.setViewName("goodsInPage");
         } else if (request.getParameter("addGoods") != null) {
-            goods = add(request, response);
+            mv.setViewName("addGoodsPage");
         }
-        List<Goods> goodsList = goodsService.getGoodsList(goods);
+        return mv;
+    }
+
+    @RequestMapping(value = "/addGoodsPage")
+    public ModelAndView AddGoodsPage(HttpServletRequest request, HttpServletResponse response) {
+        Goods goods;
         ModelAndView mv = new ModelAndView();
-        mv.addObject("goodsList", goodsList);
-        mv.setViewName("goodsInPage");
+        mv.setViewName("addGoodsPage");
+        if (request.getParameter("cancel") != null) {
+            mv.setViewName("goodsInPage");
+        } else if (request.getParameter("addGoods") != null) {
+            goods = add(request,response);
+            List<Goods> goodsList = goodsService.getGoodsList(goods);
+            mv.addObject("goodsList", goodsList);
+            mv.setViewName("goodsInPage");
+        }
         return mv;
     }
 
@@ -114,17 +131,4 @@ public class GoodsController {
         mv.setViewName("redirect:../../");
         return mv;
     }
-
-
-//
-//    @RequestMapping(value = "/goodsInPage/addGoodsPage")
-//    public ModelAndView openAddGoodsPage(HttpServletRequest request, HttpServletResponse response) {
-//        Goods goods = new Goods();
-//        ModelAndView mv = new ModelAndView();
-//        goods = add(request, response);
-//        mv.addObject("goods", goods);
-//        mv.setViewName("goodsInPage");
-//        goodsService.addGoods(goods);
-//        return mv;
-//    }
 }
