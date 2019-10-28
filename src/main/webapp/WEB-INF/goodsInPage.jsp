@@ -12,7 +12,7 @@
 <center><strong>Goods In, Connecting people...</strong></center>
 
 <div align="right">
-  <a href="<c:url value="/logout" />" class="button">Log Out</a>
+  <a href="<c:url value="/logout" />" class="logout-button">Log Out</a>
 </div>
 
 <div style="text-align: center;"> ${result} </div>
@@ -99,8 +99,8 @@
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/${goods.id}/delete'/>">Delete</a>
-                            <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
+                            <a href="<c:url value='/${goods.id}/delete'/>" class="button">Delete</a>
+                            <a href="<c:url value='/${goods.id}/edit'/>" class="button">Edit</a>
                         </c:when>
                     </c:choose>
                 </td>

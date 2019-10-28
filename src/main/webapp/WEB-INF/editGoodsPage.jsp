@@ -12,7 +12,7 @@
 <center><strong>Goods In, Connecting people...</strong></center>
 
 <div align="right">
-  <a href="<c:url value="/logout" />" >Log Out</a>
+  <a href="<c:url value="/logout" />" class="logoutButton" >Log Out</a>
 </div>
 
 <div style="text-align: center;"> ${result} </div>
