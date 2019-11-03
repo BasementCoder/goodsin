@@ -25,30 +25,39 @@
     <table class="main" align="center">
         <tr>
             <td><strong>PO:</strong></td>
-            <td><input type="text" name="po" value="${goods.id}"></td>
+            <td><input type="text" name="po" value="${lastGoodsSearchFilter.po}"></td>
         </tr>
         <tr>
             <td><strong>WO:</strong></td>
-            <td><input type="text" name="wo"></td>
+            <td><input type="text" name="wo" value="${lastGoodsSearchFilter.wo}"></td>
         <tr/>
         <tr>
             <td><strong>SO:</strong></td>
-            <td><input type="text" name="so"></td>
+            <td><input type="text" name="so" value="${lastGoodsSearchFilter.so}"></td>
         <tr/>
         <tr>
             <td><strong>Customer:</strong></td>
-            <td><input type="text" name="customer"></td>
+            <td><input type="text" name="customer" value="${lastGoodsSearchFilter.customer}"></td>
         <tr/>
         <tr>
             <td><strong>Title:</strong></td>
-            <td><input type="text" name="title"></td>
+            <td><input type="text" name="title" value="${lastGoodsSearchFilter.title}"></td>
         <tr/>
         <tr>
             <td><strong>Barcode No:</strong></td>
         <tr/>
         <tr>
             <td><strong>In stock only:</strong></td>
-            <td><input type="checkbox" name="inStockOnly"></td>
+            <td>
+                <c:choose>
+                <c:when test="${inStockOnly}">
+                    <input type="checkbox" name="inStockOnly" checked>
+                </c:when>
+                <c:otherwise>
+                    <input type="checkbox" name="inStockOnly">
+                </c:otherwise>
+                </c:choose>
+            </td>
         <tr/>
         <tr>
 
@@ -56,8 +65,9 @@
         <tr>
             <td><strong> Ile </strong>-<strong> Shelf </strong>-<strong> SPosition</strong>
                 <br>
-             <input type="text" name="rack" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input
-                        type="text" name="shelfPosition" style="width:40px;"></td>
+             <input type="text" name="rack" style="width:40px;" value="${lastGoodsSearchFilter.rack}">
+                -<input type="text" name="shelf" style="width:40px;" value="${lastGoodsSearchFilter.shelf}">
+                -<input type="text" name="shelfPosition" style="width:40px;" value="${lastGoodsSearchFilter.shelfPosition}"></td>
         <tr/>
         <tr>
             <td align="center"><input type="submit" name="search" value="Search"></td>

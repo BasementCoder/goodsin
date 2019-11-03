@@ -24,17 +24,18 @@ public class GoodsController {
 
     @RequestMapping(value = "/")
     public ModelAndView searchAdd(HttpServletRequest request, HttpServletResponse response) {
-        Goods goods;
         ModelAndView mv = new ModelAndView();
         mv.setViewName("goodsInPage");
         if (request.getParameter("search") != null) {
-            goods = search(request, response);
+            Goods goods = search(request, response);
             try {
                 Boolean inStockOnly = UIConstants.CHECK_BOX_ON.equals( request.getParameter("inStockOnly" ) );
                 List<Goods> goodsList = goodsService.getGoodsList(goods, inStockOnly);
                 mv.addObject("goodsList", goodsList);
+                mv.addObject("lastGoodsSearchFilter", goods);
+                mv.addObject("inStockOnly", inStockOnly);
                 request.getSession().setAttribute("lastGoodsSearchFilter", goods);
-                request.getSession().setAttribute("inStockOnly", inStockOnly);
+                request.getSession().setAttribute("inStockOnly", inStockOnly );
             } catch (RuntimeException re) {
                 if (ErrorCodes.EMPTY_SEARCH.equals(re.getMessage())) {
                     mv.addObject("showErrorMessage", Boolean.TRUE);
@@ -47,12 +48,14 @@ public class GoodsController {
         } else if (request.getParameter("addGoods") != null) {
             mv.setViewName("addGoodsPage");
         } else {
-            if (request.getSession().getAttribute("lastGoodsSearchFilter") != null)
+            Object lastGoodsSearchFilter = request.getSession().getAttribute("lastGoodsSearchFilter");
+            if (lastGoodsSearchFilter != null)
             {
-                List<Goods> goodsList = goodsService.getGoodsList(
-                        (Goods) request.getSession().getAttribute("lastGoodsSearchFilter"),
-                        (Boolean) request.getSession().getAttribute("inStockOnly"));
+                Boolean inStockOnly = (Boolean) request.getSession().getAttribute("inStockOnly");
+                List<Goods> goodsList = goodsService.getGoodsList((Goods) lastGoodsSearchFilter, inStockOnly);
                 mv.addObject("goodsList", goodsList);
+                mv.addObject("lastGoodsSearchFilter", lastGoodsSearchFilter);
+                mv.addObject("inStockOnly", inStockOnly);
             }
         }
         return mv;
@@ -69,6 +72,9 @@ public class GoodsController {
             goods = add(request,response);
             List<Goods> goodsList = goodsService.getGoodsList(goods);
             mv.addObject("goodsList", goodsList);
+            mv.addObject("inStockOnly", Boolean.FALSE);
+            request.getSession().setAttribute("inStockOnly", Boolean.FALSE);
+            request.getSession().setAttribute("lastGoodsSearchFilter", goods);
             mv.setViewName("goodsInPage");
         }
         return mv;
