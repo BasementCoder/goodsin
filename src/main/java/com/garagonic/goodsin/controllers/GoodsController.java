@@ -28,19 +28,20 @@ public class GoodsController {
         mv.setViewName("goodsInPage");
         if (request.getParameter("search") != null) {
             Goods goods = search(request, response);
+            Boolean inStockOnly = UIConstants.CHECK_BOX_ON.equals(request.getParameter("inStockOnly"));
             try {
-                Boolean inStockOnly = UIConstants.CHECK_BOX_ON.equals( request.getParameter("inStockOnly" ) );
                 List<Goods> goodsList = goodsService.getGoodsList(goods, inStockOnly);
                 mv.addObject("goodsList", goodsList);
                 mv.addObject("lastGoodsSearchFilter", goods);
                 mv.addObject("inStockOnly", inStockOnly);
                 request.getSession().setAttribute("lastGoodsSearchFilter", goods);
-                request.getSession().setAttribute("inStockOnly", inStockOnly );
+                request.getSession().setAttribute("inStockOnly", inStockOnly);
             } catch (RuntimeException re) {
                 if (ErrorCodes.EMPTY_SEARCH.equals(re.getMessage())) {
                     mv.addObject("showErrorMessage", Boolean.TRUE);
-                }
-                else {
+                    mv.addObject("lastGoodsSearchFilter", goods);
+                    mv.addObject("inStockOnly", inStockOnly);
+                } else {
                     throw re;
                 }
             }
@@ -49,8 +50,7 @@ public class GoodsController {
             mv.setViewName("addGoodsPage");
         } else {
             Object lastGoodsSearchFilter = request.getSession().getAttribute("lastGoodsSearchFilter");
-            if (lastGoodsSearchFilter != null)
-            {
+            if (lastGoodsSearchFilter != null) {
                 Boolean inStockOnly = (Boolean) request.getSession().getAttribute("inStockOnly");
                 List<Goods> goodsList = goodsService.getGoodsList((Goods) lastGoodsSearchFilter, inStockOnly);
                 mv.addObject("goodsList", goodsList);
@@ -64,35 +64,36 @@ public class GoodsController {
     @RequestMapping(value = "/addGoodsPage")
     public ModelAndView AddGoodsPage(HttpServletRequest request, HttpServletResponse response) {
         Goods goods;
+        boolean errorsPresent = false;
         ModelAndView mv = new ModelAndView();
         mv.setViewName("addGoodsPage");
         if (request.getParameter("cancel") != null) {
             mv.setViewName("redirect:/");
         } else if (request.getParameter("addGoods") != null) {
-            goods = add(request,response);
-            List<Goods> goodsList = goodsService.getGoodsList(goods);
-            mv.addObject("goodsList", goodsList);
-            mv.addObject("inStockOnly", Boolean.FALSE);
-            request.getSession().setAttribute("inStockOnly", Boolean.FALSE);
-            request.getSession().setAttribute("lastGoodsSearchFilter", goods);
-            mv.setViewName("goodsInPage");
+            goods = getGoodsFromRequest(request, 0);
+            try {
+                goodsService.addGoods(goods);
+            } catch (RuntimeException re) {
+                if (ErrorCodes.CUSTOMER_AND_LOCATION_REQUIRED.equals(re.getMessage())) {
+                    mv.addObject("showErrorMessage", Boolean.TRUE);
+                    mv.addObject("addedGoods", goods);
+                    mv.setViewName("addGoodsPage");
+                    errorsPresent = true;
+                } else {
+                    throw re;
+                }
+            }
+            if (!errorsPresent) {
+                mv.addObject("addedGoods", null);
+                List<Goods> goodsList = goodsService.getGoodsList(goods);
+                mv.addObject("goodsList", goodsList);
+                mv.addObject("inStockOnly", Boolean.FALSE);
+                request.getSession().setAttribute("inStockOnly", Boolean.FALSE);
+                request.getSession().setAttribute("lastGoodsSearchFilter", goods);
+                mv.setViewName("goodsInPage");
+            }
         }
         return mv;
-    }
-
-    private Goods add(HttpServletRequest request, HttpServletResponse response) {
-        Goods goods = getGoodsFromRequest(request, 0);
-
-        if(goods.getTitle() == null || goods.getRack() == null || goods.getShelf() == null || goods.getShelfPosition() == 0){
-            System.out.println("Missing important goods details. ");
-            return null;
-        }else {
-        goodsService.addGoods(goods);
-            return goods;
-        }
-
-
-
     }
 
     private Goods getGoodsFromRequest(HttpServletRequest request, int id) {
@@ -116,7 +117,7 @@ public class GoodsController {
     }
 
 
-    private int convertParameterToInt(HttpServletRequest request, String parameterName) {
+    private Integer convertParameterToInt(HttpServletRequest request, String parameterName) {
         String parameter = request.getParameter(parameterName);
         return Fn.isStringEmpty(parameter) ? 0 : parseInt(parameter);
     }
@@ -150,10 +151,7 @@ public class GoodsController {
             Goods editedGoods = getGoodsFromRequest(request, id);
             goodsService.updateGoods(editedGoods);
         }
-
-//        List<Goods> goodsList = goodsService.getGoodsList(null);
         ModelAndView mv = new ModelAndView();
-//        mv.addObject("goodsList", goodsList);
         mv.setViewName("redirect:../../");
         return mv;
     }

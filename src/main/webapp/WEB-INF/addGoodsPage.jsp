@@ -15,6 +15,10 @@
     <li style="float:right"><a href="<c:url value="/logout" />" class="logout-button">Log Out</a></li>
 </ul>
 
+<c:if test="${showErrorMessage}">
+    <div class="errorMessage"><strong>Error: Please make sure that at least fields of "Customer" and "Location" is populated.</strong></div>
+</c:if>
+
 <br>
 <center><strong>+Add Goods Menu</strong></center>
 <br>
@@ -23,23 +27,23 @@
     <table class="main" align="center" >
         <tr>
             <td><strong>PO:</strong></td>
-            <td><input type="text" name="po"></td>
+            <td><input type="text" name="po" value="${addedGoods.po}"></td>
         </tr>
         <tr>
             <td><strong>WO:</strong></td>
-            <td><input type="text" name="wo"></td>
+            <td><input type="text" name="wo" value="${addedGoods.wo}"></td>
         <tr/>
         <tr>
             <td><strong>SO:</strong></td>
-            <td><input type="text" name="so"></td>
+            <td><input type="text" name="so" value="${addedGoods.so}"></td>
         <tr/>
         <tr>
             <td><strong>Customer:</strong></td>
-            <td><input type="text" name="customer"></td>
+            <td><input type="text" name="customer" value="${addedGoods.customer}"></td>
         <tr/>
         <tr>
             <td><strong>Title:</strong></td>
-            <td><input type="text" name="title"></td>
+            <td><input type="text" name="title" value="${addedGoods.title}"></td>
         <tr/>
         <tr>
             <td><strong>Location by barcode:</strong></td>
@@ -49,9 +53,9 @@
         <tr/>
         <tr>
             <td>
-                <input type="text" style="width:40px;" name="rack" >
-                -<input type="text" style="width:40px;" name="shelf" >-
-                <input type="text" style="width:40px;" name="shelfPosition">
+                <input type="text" style="width:40px;" name="rack" value="${addedGoods.rack}">
+                -<input type="text" style="width:40px;" name="shelf" value="${addedGoods.shelf}">-
+                <input type="text" style="width:40px;" name="shelfPosition" value="${addedGoods.shelfPosition}">
             </td>
         <tr/>
     </table>
@@ -96,13 +100,11 @@
                 <td><c:out value="${goods.shelfPosition}"/></td>
                 <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
                 <td><c:out value="${goods.inDate}"/></td>
-                <td><c:out value="${goods.outDate}"/></td> <%-- out date--%>
+                <td><c:out value="${goods.outDate}"/></td>
                        <td> <input type="submit" name="delete" value = "Delete"></td>--%>
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-<%--                            <a href="<c:url value='/goodsInPage/deleteGoods/${goods.id}'/>"> Delete </a>--%>
-<%--                            <a href="<c:url value='/goodsInPage/openEditGoodsPage/${goods.id}'/>"> Edit </a> <br>--%>
                             <a href="<c:url value='/${goods.id}/delete'/>">Delete</a>
                             <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
                         </c:when>

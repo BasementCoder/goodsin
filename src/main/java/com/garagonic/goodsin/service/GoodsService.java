@@ -20,9 +20,12 @@ public class GoodsService {
 
     public void addGoods(Goods goods) {
         if (goods != null) {
+            if(Fn.isStringEmpty(goods.getCustomer() ) || Fn.isStringEmpty(goods.getRack() ) || Fn.isStringEmpty(goods.getShelf())){
+                throw new RuntimeException(ErrorCodes.CUSTOMER_AND_LOCATION_REQUIRED);
+            }
             goodsRepository.save(goods);
         } else {
-            throw new RuntimeException("Goods cannot be null. Please make sure that at least fields of " + "'Title'" + " and " + "'Location'" + " is filled");
+            throw new RuntimeException("Goods cannot be null. Please make sure that at least fields of Customer and Location is filled.");
         }
     }
 
@@ -66,7 +69,7 @@ public class GoodsService {
             } else { filterAdded = true; }
             if (Fn.isStringEmpty(goods.getTitle())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("title");
-            } else { filterAdded = true; }
+            }
             if (Fn.isStringEmpty(goods.getRack())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("rack");
             } else { filterAdded = true; }
