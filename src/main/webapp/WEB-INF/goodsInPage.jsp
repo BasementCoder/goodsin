@@ -1,6 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="body" uri="http://java.sun.com/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" isELIgnored="false"%>
+         pageEncoding="ISO-8859-1" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,75 +10,84 @@
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
 </head>
 <body>
-<center><strong>Goods In, Connecting people...</strong></center>
+<ul>
+    <li style="color: #4CAF50"><strong>Goods In, Connecting people...</strong></li>
+    <li style="float:right"><a href="<c:url value="/logout" />" class="logout-button">Log Out</a></li>
+</ul>
 
-<div align="right">
-  <a href="<c:url value="/logout" />" class="logout-button">Log Out</a>
-</div>
+<c:if test="${showErrorMessage}">
+    <div class="errorMessage"><strong>Error: At least one filter field has to be populated.</strong></div>
+</c:if>
 
-<div style="text-align: center;"> ${result} </div>
 <br>
-<br>
-<form action="/" method="post" >
+<form action="/" method="post">
 
-    <table style="with: 50%" align="center">
+    <table class="main" align="center">
         <tr>
-            <td>PO:</td>
-            <td><input type="text" name="po"></td>
+            <td><strong>PO:</strong></td>
+            <td><input type="text" name="po" value="${goods.id}"></td>
         </tr>
         <tr>
-            <td>WO:</td>
+            <td><strong>WO:</strong></td>
             <td><input type="text" name="wo"></td>
         <tr/>
         <tr>
-            <td>SO:</td>
+            <td><strong>SO:</strong></td>
             <td><input type="text" name="so"></td>
         <tr/>
         <tr>
-            <td>Customer:</td>
+            <td><strong>Customer:</strong></td>
             <td><input type="text" name="customer"></td>
         <tr/>
         <tr>
-            <td>Title:</td>
+            <td><strong>Title:</strong></td>
             <td><input type="text" name="title"></td>
         <tr/>
         <tr>
-            <td>Location by barcode:</td>
+            <td><strong>Barcode No:</strong></td>
         <tr/>
         <tr>
-            <td>Ile  -  Shelf  -  SPosition</td>
+            <td><strong>In stock only:</strong></td>
+            <td><input type="checkbox" name="inStockOnly"></td>
         <tr/>
         <tr>
-            <td>
-                <input type="text" name="rack" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input type="text" name="shelfPosition" style="width:40px;">
-            </td>
+
         <tr/>
+        <tr>
+            <td><strong> Ile </strong>-<strong> Shelf </strong>-<strong> SPosition</strong>
+                <br>
+             <input type="text" name="rack" style="width:40px;">-<input type="text" name="shelf" style="width:40px;">-<input
+                        type="text" name="shelfPosition" style="width:40px;"></td>
+        <tr/>
+        <tr>
+            <td align="center"><input type="submit" name="search" value="Search"></td>
+            <td align="center"><input type="submit" name="addGoods" value="+Add Goods"></td>
+        </tr>
 
     </table>
-    <center><input type="submit" name = "search" value = "Search">
-            <input type="submit" name="addGoods" value = "Add Goods"></center>
+
 </form>
 <br>
 </table>
 
 <c:if test="${!empty goodsList}">
-    <table width="800" border="2" align="center">
+    <table border="10" align="center">
         <tr>
-            <th width="98">ID</th>
-            <th width="98">Stock Status</th>
-            <th width="98">Title</th>
-            <th width="98">PO</th>
-            <th width="98">WO</th>
-            <th width="98">SO</th>
-            <th width="98">Customer</th>
-            <th width="98">Comment</th>
-            <th width="98">Rack</th>
-            <th width="98">Shelf</th>
-            <th width="98">Shelf Position</th>
-            <th width="98">Barcode Nr</th>
-            <th width="180">In Date</th>
-            <th width="180">Out Date</th>
-            <th width="180">Settings</th>
+            <th>ID</th>
+            <th>Stock Status</th>
+            <th>Title</th>
+            <th>PO</th>
+            <th>WO</th>
+            <th>SO</th>
+            <th>Customer</th>
+            <th>Comment</th>
+            <th>Rack</th>
+            <th>Shelf</th>
+            <th>Shelf P.</th>
+            <th>Barcode Nr</th>
+            <th>In Date</th>
+            <th>Out Date</th>
+            <th>Settings</th>
         </tr>
 
         <c:forEach items="${goodsList}" var="goods">
@@ -89,18 +99,21 @@
                 <td><c:out value="${goods.wo}"/></td>
                 <td><c:out value="${goods.so}"/></td>
                 <td><c:out value="${goods.customer}"/></td>
-                <td><c:out value="${null}"/></td> <%-- comment--%>
+                <td><c:out value="${null}"/></td>
+                    <%-- comment--%>
                 <td><c:out value="${goods.rack}"/></td>
                 <td><c:out value="${goods.shelf}"/></td>
                 <td><c:out value="${goods.shelfPosition}"/></td>
-                <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
+                <td><c:out value="${null}"/></td>
+                    <%-- Barcode Nr--%>
                 <td><c:out value="${goods.inDate}"/></td>
-                <td><c:out value="${goods.outDate}"/></td> <%-- out date--%>
+                <td><c:out value="${goods.outDate}"/></td>
+                    <%-- out date--%>
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/${goods.id}/delete'/>" class="button">Delete</a>
-                            <a href="<c:url value='/${goods.id}/edit'/>" class="button">Edit</a>
+                            <a href="<c:url value='/${goods.id}/delete'/>" class="delete-button">Delete</a>
+                            <a href="<c:url value='/${goods.id}/edit'/>" class="edit-button">Edit</a>
                         </c:when>
                     </c:choose>
                 </td>

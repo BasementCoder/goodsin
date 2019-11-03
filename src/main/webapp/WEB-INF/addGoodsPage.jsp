@@ -6,46 +6,46 @@
 <head>
     <meta charset="ISO-8859-1">
     <title> Goods In </title>
+    <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
 </head>
 <body>
-<center><strong>Goods In, Connecting people...</strong></center>
 
-<div align="right">
-  <a href="<c:url value="/logout" />" class="logoutButton">Log Out</a>
-</div>
+<ul>
+    <li style="color: #4CAF50"><strong>Goods In, Connecting people...</strong></li>
+    <li style="float:right"><a href="<c:url value="/logout" />" class="logout-button">Log Out</a></li>
+</ul>
 
-<div style="text-align: center;"> ${result} </div>
 <br>
-<center><strong>Add Goods Mode+</strong></center>
+<center><strong>+Add Goods Menu</strong></center>
 <br>
 <form action="addGoodsPage" align="center" method="post">
 
-    <table style="with: 50%" align="center" >
+    <table class="main" align="center" >
         <tr>
-            <td>PO:</td>
+            <td><strong>PO:</strong></td>
             <td><input type="text" name="po"></td>
         </tr>
         <tr>
-            <td>WO:</td>
+            <td><strong>WO:</strong></td>
             <td><input type="text" name="wo"></td>
         <tr/>
         <tr>
-            <td>SO:</td>
+            <td><strong>SO:</strong></td>
             <td><input type="text" name="so"></td>
         <tr/>
         <tr>
-            <td>Customer:</td>
+            <td><strong>Customer:</strong></td>
             <td><input type="text" name="customer"></td>
         <tr/>
         <tr>
-            <td>Title:</td>
+            <td><strong>Title:</strong></td>
             <td><input type="text" name="title"></td>
         <tr/>
         <tr>
-            <td>Location by barcode:</td>
+            <td><strong>Location by barcode:</strong></td>
         <tr/>
         <tr>
-            <td>Ile  -  Shelf  -  SPosition</td>
+            <td><strong>Ile  -  Shelf  -  SPosition</strong></td>
         <tr/>
         <tr>
             <td>

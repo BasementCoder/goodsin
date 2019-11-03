@@ -1,5 +1,7 @@
 package com.garagonic.goodsin.controllers;
 
+import com.garagonic.goodsin.common.ErrorCodes;
+import com.garagonic.goodsin.common.UIConstants;
 import com.garagonic.goodsin.repository.Goods;
 import com.garagonic.goodsin.service.GoodsService;
 import com.garagonic.goodsin.tools.Fn;
@@ -27,11 +29,31 @@ public class GoodsController {
         mv.setViewName("goodsInPage");
         if (request.getParameter("search") != null) {
             goods = search(request, response);
-            List<Goods> goodsList = goodsService.getGoodsList(goods);
-            mv.addObject("goodsList", goodsList);
+            try {
+                Boolean inStockOnly = UIConstants.CHECK_BOX_ON.equals( request.getParameter("inStockOnly" ) );
+                List<Goods> goodsList = goodsService.getGoodsList(goods, inStockOnly);
+                mv.addObject("goodsList", goodsList);
+                request.getSession().setAttribute("lastGoodsSearchFilter", goods);
+                request.getSession().setAttribute("inStockOnly", inStockOnly);
+            } catch (RuntimeException re) {
+                if (ErrorCodes.EMPTY_SEARCH.equals(re.getMessage())) {
+                    mv.addObject("showErrorMessage", Boolean.TRUE);
+                }
+                else {
+                    throw re;
+                }
+            }
             mv.setViewName("goodsInPage");
         } else if (request.getParameter("addGoods") != null) {
             mv.setViewName("addGoodsPage");
+        } else {
+            if (request.getSession().getAttribute("lastGoodsSearchFilter") != null)
+            {
+                List<Goods> goodsList = goodsService.getGoodsList(
+                        (Goods) request.getSession().getAttribute("lastGoodsSearchFilter"),
+                        (Boolean) request.getSession().getAttribute("inStockOnly"));
+                mv.addObject("goodsList", goodsList);
+            }
         }
         return mv;
     }
@@ -42,7 +64,7 @@ public class GoodsController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("addGoodsPage");
         if (request.getParameter("cancel") != null) {
-            mv.setViewName("goodsInPage");
+            mv.setViewName("redirect:/");
         } else if (request.getParameter("addGoods") != null) {
             goods = add(request,response);
             List<Goods> goodsList = goodsService.getGoodsList(goods);
@@ -101,9 +123,7 @@ public class GoodsController {
     @RequestMapping(value = "/{id}/delete")
     public ModelAndView deleteGoods(HttpServletRequest request, @PathVariable("id") int id) {
         goodsService.removeGoods(id);
-        List<Goods> goodsList = goodsService.getGoodsList(null);
         ModelAndView mv = new ModelAndView();
-        mv.addObject("goodsList", goodsList);
         mv.setViewName("redirect:../");
         return mv;
     }
@@ -125,9 +145,9 @@ public class GoodsController {
             goodsService.updateGoods(editedGoods);
         }
 
-        List<Goods> goodsList = goodsService.getGoodsList(null);
+//        List<Goods> goodsList = goodsService.getGoodsList(null);
         ModelAndView mv = new ModelAndView();
-        mv.addObject("goodsList", goodsList);
+//        mv.addObject("goodsList", goodsList);
         mv.setViewName("redirect:../../");
         return mv;
     }

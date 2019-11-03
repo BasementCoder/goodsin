@@ -1,5 +1,6 @@
 package com.garagonic.goodsin.service;
 
+import com.garagonic.goodsin.common.ErrorCodes;
 import com.garagonic.goodsin.repository.Goods;
 import com.garagonic.goodsin.repository.GoodsRepository;
 import com.garagonic.goodsin.tools.Fn;
@@ -21,7 +22,7 @@ public class GoodsService {
         if (goods != null) {
             goodsRepository.save(goods);
         } else {
-            throw new RuntimeException("Goods cannot be null. Please make sure that at least fields of "+"'Title'"+" and "+"'Location'"+" is filled");
+            throw new RuntimeException("Goods cannot be null. Please make sure that at least fields of " + "'Title'" + " and " + "'Location'" + " is filled");
         }
     }
 
@@ -42,42 +43,49 @@ public class GoodsService {
     }
 
     public List<Goods> getGoodsList(Goods goods) {
+        return getGoodsList(goods, false);
+    }
 
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "comment", "inDate", "outDate", "barcode", "inStock" );
+    public List<Goods> getGoodsList(Goods goods, Boolean inStockOnly) {
 
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIncludeNullValues().withIgnorePaths("id", "comment", "inDate", "outDate", "barcode");
+        boolean filterAdded = false;
         if (goods != null) {
+
             if (goods.getPo() == 0) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("po");
-            }
+            } else { filterAdded = true; }
             if (goods.getWo() == 0) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("wo");
-            }
+            } else { filterAdded = true; }
             if (goods.getSo() == 0) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("so");
-            }
+            } else { filterAdded = true; }
             if (Fn.isStringEmpty(goods.getCustomer())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("customer");
-            }
+            } else { filterAdded = true; }
             if (Fn.isStringEmpty(goods.getTitle())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("title");
-            }
+            } else { filterAdded = true; }
             if (Fn.isStringEmpty(goods.getRack())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("rack");
-            }
+            } else { filterAdded = true; }
             if (Fn.isStringEmpty(goods.getShelf())) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("shelf");
-            }
+            } else { filterAdded = true; }
             if (goods.getShelfPosition() == 0) {
                 exampleMatcher = exampleMatcher.withIgnorePaths("shelfPosition");
-            }
+            } else { filterAdded = true; }
 
-//             TODO Add search by stock availability option
-//        if (onlyCurrentGoods) {
-//            searchResults = findCurrentGoods(searchResults);
-//        }
+            if (inStockOnly != null && inStockOnly) {
+                goods.setInStock(true);
+            }
+            else {
+                exampleMatcher = exampleMatcher.withIgnorePaths("inStock");
+            }
         }
-        else {
-            goods = new Goods();
+        if (!filterAdded) {
+            throw new RuntimeException(ErrorCodes.EMPTY_SEARCH);
         }
 
         return goodsRepository.findAll(Example.of(goods, exampleMatcher));
