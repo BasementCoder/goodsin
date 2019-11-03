@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="body" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" isELIgnored="false" %>
 <!DOCTYPE html>
@@ -71,7 +72,7 @@
         <tr/>
         <tr>
             <td align="center"><input type="submit" name="search" value="Search"></td>
-            <td align="center"><input type="submit" name="addGoods" value="+Add Goods"></td>
+            <td align="center"><security:authorize access="hasRole('ROLE_ADMIN')"><input type="submit" name="addGoods" value="+Add Goods"></security:authorize> </td>
         </tr>
 
     </table>
@@ -122,8 +123,10 @@
                 <td>
                     <c:choose>
                         <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/${goods.id}/delete'/>" class="delete-button">Delete</a>
-                            <a href="<c:url value='/${goods.id}/edit'/>" class="edit-button">Edit</a>
+                            <security:authorize access="hasRole('ROLE_ADMIN')">
+                                <a href="<c:url value='/${goods.id}/delete'/>" class="delete-button">Delete</a>
+                                <a href="<c:url value='/${goods.id}/edit'/>" class="edit-button">Edit</a>
+                            </security:authorize>
                         </c:when>
                     </c:choose>
                 </td>
