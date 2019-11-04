@@ -1,5 +1,6 @@
 package com.garagonic.goodsin.controllers;
 
+import com.garagonic.goodsin.UIEntities.UIGoods;
 import com.garagonic.goodsin.common.ErrorCodes;
 import com.garagonic.goodsin.common.UIConstants;
 import com.garagonic.goodsin.repository.Goods;
@@ -32,14 +33,14 @@ public class GoodsController {
             try {
                 List<Goods> goodsList = goodsService.getGoodsList(goods, inStockOnly);
                 mv.addObject("goodsList", goodsList);
-                mv.addObject("lastGoodsSearchFilter", goods);
+                mv.addObject("lastGoodsSearchFilter", new UIGoods(goods));
                 mv.addObject("inStockOnly", inStockOnly);
                 request.getSession().setAttribute("lastGoodsSearchFilter", goods);
                 request.getSession().setAttribute("inStockOnly", inStockOnly);
             } catch (RuntimeException re) {
                 if (ErrorCodes.EMPTY_SEARCH.equals(re.getMessage())) {
                     mv.addObject("showErrorMessage", Boolean.TRUE);
-                    mv.addObject("lastGoodsSearchFilter", goods);
+                    mv.addObject("lastGoodsSearchFilter", new UIGoods(goods));
                     mv.addObject("inStockOnly", inStockOnly);
                 } else {
                     throw re;
@@ -54,7 +55,7 @@ public class GoodsController {
                 Boolean inStockOnly = (Boolean) request.getSession().getAttribute("inStockOnly");
                 List<Goods> goodsList = goodsService.getGoodsList((Goods) lastGoodsSearchFilter, inStockOnly);
                 mv.addObject("goodsList", goodsList);
-                mv.addObject("lastGoodsSearchFilter", lastGoodsSearchFilter);
+                mv.addObject("lastGoodsSearchFilter", new UIGoods((Goods) lastGoodsSearchFilter));
                 mv.addObject("inStockOnly", inStockOnly);
             }
         }
@@ -139,9 +140,8 @@ public class GoodsController {
     public ModelAndView openEditGoodsPage(@PathVariable("id") int id) {
         Goods goods = goodsService.getGoods(id);
         ModelAndView mv = new ModelAndView();
-        mv.addObject("goods", goods);
+        mv.addObject("goods", new UIGoods(goods));
         mv.setViewName("editGoodsPage");
-        goodsService.addGoods(goods);
         return mv;
     }
 

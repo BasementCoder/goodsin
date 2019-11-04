@@ -58,62 +58,16 @@
                 <input type="text" style="width:40px;" name="shelfPosition" value="${addedGoods.shelfPosition}">
             </td>
         <tr/>
+        <tr>
+            <td><input type="submit" name="addGoods" value = "Complete"></td>
+            <td><input type="submit" name = "cancel" value = "Cancel"></td>
+        </tr>
     </table>
-    <input type="submit" name="addGoods" value = "Complete">
-    <input type="submit" name = "cancel" value = "Cancel">
+
+
 
 <br>
 </table>
-
-<c:if  test="${!empty goodsList}" >
-    <table width="800" border="2" >
-        <tr>
-            <th width="98">ID</th>
-            <th width="98">Stock Status</th>
-            <th width="98">Title</th>
-            <th width="98">PO</th>
-            <th width="98">WO</th>
-            <th width="98">SO</th>
-            <th width="98">Customer</th>
-            <th width="98">Comment</th>
-            <th width="98">Rack</th>
-            <th width="98">Shelf</th>
-            <th width="98">Shelf Position</th>
-            <th width="98">Barcode Nr</th>
-            <th width="180">In Date</th>
-            <th width="180">Out Date</th>
-            <th width="180">Settings</th>
-        </tr>
-
-        <c:forEach items="${goodsList}" var="goods">
-            <tr>
-                <td><c:out value="${goods.id}"/></td>
-                <td><c:out value="${goods.inStock}"/></td>
-                <td><c:out value="${goods.title}"/></td>
-                <td><c:out value="${goods.po}"/></td>
-                <td><c:out value="${goods.wo}"/></td>
-                <td><c:out value="${goods.so}"/></td>
-                <td><c:out value="${goods.customer}"/></td>
-                <td><c:out value="${null}"/></td> <%-- comment--%>
-                <td><c:out value="${goods.rack}"/></td>
-                <td><c:out value="${goods.shelf}"/></td>
-                <td><c:out value="${goods.shelfPosition}"/></td>
-                <td><c:out value="${null}"/></td>  <%-- Barcode Nr--%>
-                <td><c:out value="${goods.inDate}"/></td>
-                <td><c:out value="${goods.outDate}"/></td>
-                       <td> <input type="submit" name="delete" value = "Delete"></td>--%>
-                <td>
-                    <c:choose>
-                        <c:when test="${goods.inStock}">
-                            <a href="<c:url value='/${goods.id}/delete'/>">Delete</a>
-                            <a href="<c:url value='/${goods.id}/edit'/>">Edit</a>
-                        </c:when>
-                    </c:choose>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
 </form>
 
 </body>

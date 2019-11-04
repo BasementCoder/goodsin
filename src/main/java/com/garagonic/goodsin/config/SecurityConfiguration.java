@@ -12,12 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
-
-/**
- * @author <a href="mailto:izebit@gmail.com">Artem Konovalov</a> <br/>
- *         Creation date: 6/25/17.
- * @since 1.0
- */
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
